@@ -25,6 +25,13 @@ async function sendToTeacher(final=false){
   if(final&&!val('article').trim()){
     alert('Please write your article before final submission.');return false;
   }
+  
+const wordCount = val('article').trim().split(/\s+/).filter(Boolean).length;
+if (final && (wordCount < 120 || wordCount > 150)) {
+  alert('Your article must be 120–150 words. You have ' + wordCount + ' words.');
+  return false;
+}
+
   const payload=cloudPayload(final?'Submitted':'In Progress');
   const signature=JSON.stringify(payload);
   if(!final&&!dirty&&signature===lastSignature)return true;
